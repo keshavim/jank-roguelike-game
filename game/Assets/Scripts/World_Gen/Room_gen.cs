@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Room_gen : MonoBehaviour
 {
-    public GameObject[] tiles;
-    // Start is called before the first frame update
+    public GameObject[] rooms;
+
     void Start()
     {
-        var instance = Instantiate(tiles[Random.Range(0, tiles.Length)], transform.position, Quaternion.identity);
-        instance.transform.parent = transform;
+        Instantiate(rooms[Random.Range(0, rooms.Length)], transform.position, Quaternion.identity);
     }
 
 
