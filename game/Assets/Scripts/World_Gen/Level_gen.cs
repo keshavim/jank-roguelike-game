@@ -1,5 +1,5 @@
 
-using System.ComponentModel;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Level_gen : MonoBehaviour
@@ -46,6 +46,10 @@ public class Level_gen : MonoBehaviour
 
         if(!generate){
             fillEmpty();
+        }
+
+        if(Input.GetKeyDown(KeyCode.R)){
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
@@ -124,9 +128,6 @@ public class Level_gen : MonoBehaviour
         }
         
 
-        // if(transform.position.y == min.y){
-        //     generate = false;
-        // }
     }
 
 //searches through all the rooms spawns and fills the empty ones. 
