@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 178254512}
   m_Layer: 0
   m_Name: Generation
-  m_TagString: Untagged
+  m_TagString: levelGenerator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -295,6 +295,8 @@ MonoBehaviour:
   moveAmount: 10
   min: {x: -5, y: -5}
   max: {x: 85, y: 85}
+  start: 1
+  end: 0
   roomlayer:
     serializedVersion: 2
     m_Bits: 64

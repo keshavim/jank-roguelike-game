@@ -7,13 +7,14 @@ public class Level_gen : MonoBehaviour
     public Transform[] positions;
     public GameObject[] rooms; //LR = 0, LRB = 1, LRT = 2, LRTB = 3
 
-    private int direction;
+    int direction;
     public int moveAmount;
     [Tooltip("sets level boundaries.")]
     public Vector2 min, max;
 
-    private int downCounter = 0;
-    private bool generate = true;
+    int downCounter = 0;
+    bool generate = true;
+    public bool start = true, end;
 
     public LayerMask roomlayer;
 
@@ -25,6 +26,7 @@ public class Level_gen : MonoBehaviour
     {
         generate = true;
         //creates the first room
+        start = true;
         transform.position = positions[Random.Range(0, positions.Length)].position;
         Instantiate(rooms[Random.Range(0, rooms.Length)], transform.position, Quaternion.identity);
         
@@ -96,13 +98,13 @@ public class Level_gen : MonoBehaviour
                 Collider2D roomDestruction = Physics2D.OverlapCircle(transform.position, 1, roomlayer);
                 var rt = roomDestruction.GetComponent<Room_type>();
                 if(rt.type == 0 || rt.type == 2){
+                    start = rt.start;
                     rt.DestroyRoom();
                     int rindex = downCounter >=2 ? 3 : Random.Range(1, rooms.Length);
                     if(rindex == 2)rindex = 3;
 
                     Instantiate(rooms[rindex], transform.position, Quaternion.identity);
                 }
-
 
                 //creating the new room
                 newPos = new Vector2(transform.position.x, transform.position.y - moveAmount); 
@@ -111,13 +113,20 @@ public class Level_gen : MonoBehaviour
                 Instantiate(rooms[Random.Range(2, rooms.Length)], transform.position, Quaternion.identity);
 
                 direction = Random.Range(1, 6); 
+            } else {
+                end = true;
+                Collider2D r = Physics2D.OverlapCircle(transform.position, 1, roomlayer);
+                var type = r.GetComponent<Room_type>().type;
+                r.GetComponent<Room_type>().DestroyRoom();
+                Instantiate(rooms[type], transform.position, Quaternion.identity);
+                generate = false;
             }
         }
         
 
-        if(transform.position.y == min.y){
-            generate = false;
-        }
+        // if(transform.position.y == min.y){
+        //     generate = false;
+        // }
     }
 
 //searches through all the rooms spawns and fills the empty ones. 
